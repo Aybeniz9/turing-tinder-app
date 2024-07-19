@@ -1,16 +1,23 @@
 package az.edu.turing.turingtinderapp.model.entity;
 
-
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Data
-@ToString
-@EqualsAndHashCode
-@AllArgsConstructor
+@Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "LIKES")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Like {
-    private int id;
-    private int userId;
-    private int likedUserId;
-    private boolean reaction;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+    Long userId;
+    Long likedUserId;
+    Boolean reaction;
 }
