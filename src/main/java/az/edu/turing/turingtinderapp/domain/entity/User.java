@@ -1,4 +1,4 @@
-package az.edu.turing.turingtinderapp.model.entity;
+package az.edu.turing.turingtinderapp.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -7,17 +7,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
+
+
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "LIKES")
+@Table(name = "USERS")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Like {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    Long userId;
-    Long likedUserId;
-    Boolean reaction;
+    String name;
+    String password;
+    String photoUrl;
+    LocalDate lastLogin;
 }
