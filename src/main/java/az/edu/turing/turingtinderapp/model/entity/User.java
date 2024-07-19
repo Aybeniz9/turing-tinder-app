@@ -1,20 +1,27 @@
 package az.edu.turing.turingtinderapp.model.entity;
 
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDate;
 
 
 @Data
-@EqualsAndHashCode
-@ToString
-@AllArgsConstructor
+@Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "USERS")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
-
-    private int id;
-    private String name;
-    private String password;
-    private String photoUrl;
-    private String lastLogin;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+    String name;
+    String password;
+    String photoUrl;
+    LocalDate lastLogin;
 }

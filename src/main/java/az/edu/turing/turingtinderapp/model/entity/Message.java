@@ -1,20 +1,26 @@
 package az.edu.turing.turingtinderapp.model.entity;
 
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Locale;
 
 @Data
-@EqualsAndHashCode
-@ToString
-@AllArgsConstructor
+@Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "MESSAGES")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Message {
-    private int id;
-    private int senderId;
-    private int receiverId;
-    private String content;
-    private LocalDate date;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
+    int senderId;
+    int receiverId;
+    String content;
+    LocalDate date;
 }
