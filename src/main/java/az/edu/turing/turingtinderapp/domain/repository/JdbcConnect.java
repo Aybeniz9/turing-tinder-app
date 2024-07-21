@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class JdbcConnect {
-    final String url = "jdbc:postgresql://localhost:5433/postgres";
+    final String url = "jdbc:postgresql://localhost:5432/tinderpostgres";
     final String user = "postgres";
-    final String password = "Ali200aa";
+    final String password = "Aybeniz2021";
 
     public Connection getConnection() {
         try {

@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Data
@@ -22,4 +24,8 @@ public class User {
     String password;
     String photoUrl;
     LocalDate lastLogin;
+    @ElementCollection
+    @CollectionTable(name = "user_likes", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "liked_user_id")
+    private Set<Long> likedUserIds = new HashSet<>();// sonra duzelis edilecek
 }
