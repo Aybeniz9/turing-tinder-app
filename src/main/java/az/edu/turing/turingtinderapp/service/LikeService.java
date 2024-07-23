@@ -20,6 +20,7 @@ public class LikeService {
         this.likeRepositoryDao = likeRepositoryDao;
     }
 
+
     public List<Like> getAll() {
         return likeRepositoryDao.getAll();
     }
