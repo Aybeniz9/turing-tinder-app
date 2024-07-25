@@ -9,5 +9,4 @@ public class TuringTinderAppApplication {
     public static void main(String[] args) {
         SpringApplication.run(TuringTinderAppApplication.class, args);
     }
-
 }
