@@ -9,6 +9,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 @Repository
-public abstract class LikeRepository implements DAO<Like> {
+public interface LikeRepository extends JpaRepository<Like, Long> {
 
 }
