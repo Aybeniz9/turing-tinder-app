@@ -4,7 +4,6 @@ import az.edu.turing.turingtinderapp.domain.entity.User;
 import az.edu.turing.turingtinderapp.model.dto.UserDto;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.processing.Generated;
@@ -12,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-08-01T17:18:46+0400",
-    comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.1 (Oracle Corporation)"
+    date = "2024-08-01T23:07:22+0400",
+    comments = "version: 1.5.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.1 (Oracle Corporation)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {
@@ -31,16 +30,6 @@ public class UserMapperImpl implements UserMapper {
         LocalDate lastLogin = null;
         Set<Long> likedUserIds = null;
 
-        id = user.getId();
-        name = user.getName();
-        password = user.getPassword();
-        photoUrl = user.getPhotoUrl();
-        lastLogin = user.getLastLogin();
-        Set<Long> set = user.getLikedUserIds();
-        if ( set != null ) {
-            likedUserIds = new LinkedHashSet<Long>( set );
-        }
-
         UserDto userDto = new UserDto( id, name, password, photoUrl, lastLogin, likedUserIds );
 
         return userDto;
@@ -53,16 +42,6 @@ public class UserMapperImpl implements UserMapper {
         }
 
         User user = new User();
-
-        user.setId( userDto.id() );
-        user.setName( userDto.name() );
-        user.setPassword( userDto.password() );
-        user.setPhotoUrl( userDto.photoUrl() );
-        user.setLastLogin( userDto.lastLogin() );
-        Set<Long> set = userDto.likedUserIds();
-        if ( set != null ) {
-            user.setLikedUserIds( new LinkedHashSet<Long>( set ) );
-        }
 
         return user;
     }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,52 +69,46 @@ public class MessageController {
         messageService.deleteMessageById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<MessageDto>> getMessagesByUserId(@PathVariable Long userId) {
+        List<MessageDto> messages = messageService.getMessagesByUserId(userId);
+        return ResponseEntity.ok(messages);
+    }
+
+    @GetMapping("/between/{senderId}/{receiverId}")
+    public ResponseEntity<List<MessageDto>> getMessagesBetweenUsers(@PathVariable Long senderId, @PathVariable Long receiverId) {
+        List<MessageDto> messages = messageService.getMessagesBetweenUsers(senderId, receiverId);
+        return ResponseEntity.ok(messages);
+    }
+
+    @PutMapping("/{id}/content")
+    public ResponseEntity<Void> updateMessageContent(@PathVariable Long id, @RequestParam String content) {
+        messageService.updateMessageContent(id, content);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/user/{userId}")
+    public ResponseEntity<Void> deleteMessagesByUserId(@PathVariable Long userId) {
+        messageService.deleteMessagesByUserId(userId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/date/{date}")
+    public ResponseEntity<List<MessageDto>> getMessagesByDate(@PathVariable LocalDate date) {
+        List<MessageDto> messages = messageService.getMessagesByDate(date);
+        return ResponseEntity.ok(messages);
+    }
+
+    @PostMapping("/{id}/read")
+    public ResponseEntity<Void> markMessageAsRead(@PathVariable Long id) {
+        messageService.markMessageAsRead(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/user/{userId}/read")
+    public ResponseEntity<Void> markMessagesAsRead(@PathVariable Long userId) {
+        messageService.markMessagesAsRead(userId);
+        return ResponseEntity.noContent().build();
+    }
 }
-
-
-//@RestController
-//@RequestMapping("/messages")
-//public class MessageController {
-//
-//    private final MessageService messageService;
-//
-//    @Autowired
-//    public MessageController(MessageService messageService) {
-//        this.messageService = messageService;
-//    }
-//
-//    @GetMapping
-//    public List<Message> getAllMessages() {
-//        return messageService.getAllMessages();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Message> getMessageById(@PathVariable Long id) {
-//        Optional<Message> message = messageService.getMessageById(id);
-//        return message.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-//    }
-//
-//    @PostMapping
-//    public Message createMessage(@RequestBody Message message) {
-//        return messageService.saveMessage(message);
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Message> updateMessage(@PathVariable Long id, @RequestBody Message message) {
-//        if (!messageService.getMessageById(id).isPresent()) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        message.setId(id);
-//        return ResponseEntity.ok(messageService.saveMessage(message));
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteMessage(@PathVariable Long id) {
-//        if (!messageService.getMessageById(id).isPresent()) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        messageService.deleteMessage(id);
-//        return ResponseEntity.noContent().build();
-//    }
-
 

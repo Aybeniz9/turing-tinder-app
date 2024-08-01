@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-08-01T17:18:45+0400",
-    comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.1 (Oracle Corporation)"
+    date = "2024-08-01T23:07:22+0400",
+    comments = "version: 1.5.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.1 (Oracle Corporation)"
 )
 @Component
 public class LikeMapperImpl implements LikeMapper {
@@ -21,14 +21,14 @@ public class LikeMapperImpl implements LikeMapper {
             return null;
         }
 
-        LikeDto.LikeDtoBuilder likeDto = LikeDto.builder();
+        Long id = null;
+        Long userId = null;
+        Long likedUserId = null;
+        Boolean reaction = null;
 
-        likeDto.id( like.getId() );
-        likeDto.userId( like.getUserId() );
-        likeDto.likedUserId( like.getLikedUserId() );
-        likeDto.reaction( like.getReaction() );
+        LikeDto likeDto = new LikeDto( id, userId, likedUserId, reaction );
 
-        return likeDto.build();
+        return likeDto;
     }
 
     @Override
@@ -38,11 +38,6 @@ public class LikeMapperImpl implements LikeMapper {
         }
 
         Like like = new Like();
-
-        like.setId( likeDto.id() );
-        like.setUserId( likeDto.userId() );
-        like.setLikedUserId( likeDto.likedUserId() );
-        like.setReaction( likeDto.reaction() );
 
         return like;
     }

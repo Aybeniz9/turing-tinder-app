@@ -2,6 +2,7 @@ package az.edu.turing.turingtinderapp.model.mapper;
 
 import az.edu.turing.turingtinderapp.domain.entity.Message;
 import az.edu.turing.turingtinderapp.model.dto.MessageDto;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -9,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-08-01T17:18:46+0400",
-    comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.1 (Oracle Corporation)"
+    date = "2024-08-01T23:07:22+0400",
+    comments = "version: 1.5.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 22.0.1 (Oracle Corporation)"
 )
 @Component
 public class MessageMapperImpl implements MessageMapper {
@@ -21,15 +22,15 @@ public class MessageMapperImpl implements MessageMapper {
             return null;
         }
 
-        MessageDto.MessageDtoBuilder messageDto = MessageDto.builder();
+        Long id = null;
+        Long senderId = null;
+        Long receiverId = null;
+        String content = null;
+        LocalDate date = null;
 
-        messageDto.date( message.getDate() );
-        messageDto.id( message.getId() );
-        messageDto.senderId( message.getSenderId() );
-        messageDto.receiverId( message.getReceiverId() );
-        messageDto.content( message.getContent() );
+        MessageDto messageDto = new MessageDto( id, senderId, receiverId, content, date );
 
-        return messageDto.build();
+        return messageDto;
     }
 
     @Override
@@ -39,12 +40,6 @@ public class MessageMapperImpl implements MessageMapper {
         }
 
         Message message = new Message();
-
-        message.setDate( messageDto.date() );
-        message.setId( messageDto.id() );
-        message.setSenderId( messageDto.senderId() );
-        message.setReceiverId( messageDto.receiverId() );
-        message.setContent( messageDto.content() );
 
         return message;
     }
@@ -58,6 +53,20 @@ public class MessageMapperImpl implements MessageMapper {
         List<MessageDto> list = new ArrayList<MessageDto>( messages.size() );
         for ( Message message : messages ) {
             list.add( toDto( message ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<Message> toEntity(List<MessageDto> messageDtos) {
+        if ( messageDtos == null ) {
+            return null;
+        }
+
+        List<Message> list = new ArrayList<Message>( messageDtos.size() );
+        for ( MessageDto messageDto : messageDtos ) {
+            list.add( toEntity( messageDto ) );
         }
 
         return list;

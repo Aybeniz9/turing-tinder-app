@@ -10,5 +10,8 @@ import java.util.function.Predicate;
 
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Long> {
+    List<Like> findByUserId(Long userId);
+    List<Like> findByReaction(Boolean reaction);
+    Optional<Like> findByUserIdAndLikedUserId(Long userId, Long likedUserId);
 
 }

@@ -18,9 +18,18 @@ import java.time.LocalDate;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     Long id;
+
+    @Column(name = "sender_id", nullable = false)
     Long senderId;
+
+    @Column(name = "receiver_id", nullable = false)
     Long receiverId;
+
+    @Column(name = "content", nullable = false, length = 500)
     String content;
+
+    @Column(name = "date", nullable = false)
     LocalDate date;
 }

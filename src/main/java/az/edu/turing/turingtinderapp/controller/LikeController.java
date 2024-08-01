@@ -1,6 +1,7 @@
 package az.edu.turing.turingtinderapp.controller;
 
 import az.edu.turing.turingtinderapp.model.dto.LikeDto;
+import az.edu.turing.turingtinderapp.model.dto.UserDto;
 import az.edu.turing.turingtinderapp.service.LikeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,119 +65,29 @@ public class LikeController {
         likeService.deleteLikeById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-}
-//package az.edu.turing.turingtinderapp.controller;
-//
-//import az.edu.turing.turingtinderapp.domain.entity.Like;
-//import az.edu.turing.turingtinderapp.service.LikeService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//@RestController
-//@RequestMapping("/likes")
-//public class LikeController {
-//
-//    private final LikeService likeService;
-//
-//    @Autowired
-//    public LikeController(LikeService likeService) {
-//        this.likeService = likeService;
-//    }
-//
-//    @PostMapping
-//    public ResponseEntity<Like> createLike(@RequestBody Like like) {
-//        Like savedLike = likeService.insert(like);
-//        return new ResponseEntity<>(savedLike, HttpStatus.CREATED);
-//    }
-//
-//    // Get all likes
-//    @GetMapping
-//    public ResponseEntity<List<Like>> getAllLikes() {
-//        List<Like> likes = likeService.getAllLikes();
-//        return new ResponseEntity<>(likes, HttpStatus.OK);
-//    }
-//
-//    // Get a like by ID
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Like> getLikeById(@PathVariable Long id) {
-//        Optional<Like> like = likeService.getLikeById(id);
-//        if (like.isPresent()) {
-//            return new ResponseEntity<>(like.get(), HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-//
-//    // Delete a like by ID
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteLikeById(@PathVariable Long id) {
-//        Optional<Like> like = likeService.getLikeById(id);
-//        if (like.isPresent()) {
-//            likeService.deleteLikeById(id);
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Like> updateLike(@PathVariable Long id, @RequestBody Like like) {
-//        try {
-//            Like updatedLike = likeService.updateLike(id, like);
-//            return new ResponseEntity<>(updatedLike, HttpStatus.OK);
-//        } catch (IllegalArgumentException e) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-//}
-//
 
-//@Controller
-//@RequestMapping("/likes")
-//public class LikeController {
-//    private final LikeService likeService;
-//
-//    @Autowired
-//    public LikeController(LikeService likeService) {
-//        this.likeService = likeService;
-//    }
-//
-//    @GetMapping
-//    public String getAllLikes(Model model) {
-//        List<Like> likes = likeService.getAllLikes();
-//        model.addAttribute("likes", likes);
-//        return "likeList"; // Name of the view
-//    }
-//
-//    @GetMapping("/{id}")
-//    public String getLikeById(@PathVariable Long id, Model model) {
-//        Optional<Like> like = likeService.getLikeById(id);
-//        like.ifPresent(value -> model.addAttribute("like", value));
-//        return "likeDetail"; // Name of the view
-//    }
-//
-//    @PostMapping
-//    public String saveLike(@ModelAttribute Like like, Model model) {
-//        likeService.saveLike(like);
-//        model.addAttribute("like", like);
-//        return "likeSaved"; // Name of the view
-//    }
-//
-//    @PutMapping("/{id}")
-//    public String updateLike(@PathVariable Long id, @ModelAttribute Like like, Model model) {
-//        like.setId(id);
-//        likeService.update(like);
-//        model.addAttribute("like", like);
-//        return "likeUpdated"; // Name of the view
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public String deleteLike(@PathVariable Long id, Model model) {
-//        likeService.deleteLikeById(id);
-//        return "likeDeleted"; // Name of the view
-//    }
-//}
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<LikeDto>> getLikesByUserId(@PathVariable Long userId) {
+        List<LikeDto> likes = likeService.getLikesByUserId(userId);
+        return ResponseEntity.ok(likes);
+    }
+
+    @GetMapping("/user/{userId}/liked")
+    public ResponseEntity<List<UserDto>> getLikedUsersByUserId(@PathVariable Long userId) {
+        List<UserDto> likedUsers = likeService.getLikedUsersByUserId(userId);
+        return ResponseEntity.ok(likedUsers);
+    }
+
+    @GetMapping("/user/{userId}/liked/{likedUserId}")
+    public ResponseEntity<LikeDto> getLikeByUserIds(@PathVariable Long userId, @PathVariable Long likedUserId) {
+        Optional<LikeDto> likeDto = likeService.getLikeByUserIds(userId, likedUserId);
+        return likeDto.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @GetMapping("/reaction/{reaction}")
+    public ResponseEntity<List<LikeDto>> getLikesByReaction(@PathVariable Boolean reaction) {
+        List<LikeDto> likes = likeService.getLikesByReaction(reaction);
+        return ResponseEntity.ok(likes);
+    }
+}

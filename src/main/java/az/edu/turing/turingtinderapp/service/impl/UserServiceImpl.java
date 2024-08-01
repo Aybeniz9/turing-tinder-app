@@ -10,8 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -70,5 +73,52 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+    @Override
+    public List<UserDto> getUsersByName(String name) {
+        logger.info("Fetching users with name: {}", name);
+        List<User> users = userRepository.findByNameContaining(name);
+        return users.stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDto> getUsersByPhotoUrl(String photoUrl) {
+        logger.info("Fetching users with photo URL: {}", photoUrl);
+        List<User> users = userRepository.findByPhotoUrl(photoUrl);
+        return users.stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDto> getUsersByLastLogin(LocalDate lastLogin) {
+        logger.info("Fetching users with last login date: {}", lastLogin);
+        List<User> users = userRepository.findByLastLogin(lastLogin);
+        return users.stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDto> getLikedUsersByUserId(Long userId) {
+        logger.info("Fetching liked users for user with id: {}", userId);
+        List<Long> likedUserIds = userRepository.findLikedUserIdsByUserId(userId);
+        List<User> likedUsers = userRepository.findAllById(likedUserIds);
+        return likedUsers.stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateUserLikes(Long userId, Set<Long> likedUserIds) {
+        logger.info("Updating likes for user with id: {}", userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        user.setLikedUserIds(likedUserIds);
+        userRepository.save(user);
+        logger.info("User likes updated successfully");
+    }
+
 }
 

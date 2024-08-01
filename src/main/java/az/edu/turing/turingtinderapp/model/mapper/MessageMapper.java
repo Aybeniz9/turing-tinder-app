@@ -10,12 +10,15 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MessageMapper {
 
-    @Mapping(target = "date", source = "date")
+//    @Mapping(target = "date", source = "date")
     MessageDto toDto(Message message);
 
-    @Mapping(target = "date", source = "date")
+//    @Mapping(target = "date",source = "date")
     Message toEntity(MessageDto messageDto);
 
     List<MessageDto> toDto(List<Message> messages);
+
+    List<Message> toEntity(List<MessageDto> messageDtos);
 }
+
 

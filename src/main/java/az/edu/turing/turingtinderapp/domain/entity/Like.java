@@ -16,8 +16,15 @@ import lombok.experimental.FieldDefaults;
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     Long id;
+
+    @Column(name = "user_id", nullable = false)
     Long userId;
+
+    @Column(name = "liked_user_id", nullable = false)
     Long likedUserId;
+
+    @Column(name = "reaction", nullable = false)
     Boolean reaction;
 }
