@@ -17,15 +17,26 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     Long id;
+
+    @Column(name = "name", nullable = false)
     String name;
-    String password;
+
+    @Column(name = "photo_url")
     String photoUrl;
+
+    @Column(name = "password", nullable = false)
+    String password;
+
+    @Column(name = "last_login")
     LocalDate lastLogin;
+
     @ElementCollection
     @CollectionTable(name = "user_likes", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "liked_user_id")
-    private Set<Long> likedUserIds = new HashSet<>();// sonra duzelis edilecek
+    private Set<Long> likedUserIds = new HashSet<>();
 }

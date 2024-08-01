@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
@@ -79,13 +81,38 @@ public class UserController {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/name/{name}")
+    public ResponseEntity<List<UserDto>> getUsersByName(@PathVariable String name) {
+        List<UserDto> users = userService.getUsersByName(name);
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/photo-url/{photoUrl}")
+    public ResponseEntity<List<UserDto>> getUsersByPhotoUrl(@PathVariable String photoUrl) {
+        List<UserDto> users = userService.getUsersByPhotoUrl(photoUrl);
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/last-login/{lastLogin}")
+    public ResponseEntity<List<UserDto>> getUsersByLastLogin(@PathVariable String lastLogin) {
+        LocalDate lastLoginDate = LocalDate.parse(lastLogin);
+        List<UserDto> users = userService.getUsersByLastLogin(lastLoginDate);
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/{userId}/liked")
+    public ResponseEntity<List<UserDto>> getLikedUsersByUserId(@PathVariable Long userId) {
+        List<UserDto> likedUsers = userService.getLikedUsersByUserId(userId);
+        return ResponseEntity.ok(likedUsers);
+    }
+
+    @PutMapping("/{userId}/likes")
+    public ResponseEntity<Void> updateUserLikes(@PathVariable Long userId, @RequestBody Set<Long> likedUserIds) {
+        try {
+            userService.updateUserLikes(userId, likedUserIds);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 }
-
-
-//    @GetMapping("/liked")
-//    public ResponseEntity<List<User>> getLikedUsers() {
-//        // Retrieve and return the list of liked users
-//        List<User> likedUsers = userService.getLikedUsers(); // Assume this method is implemented
-//        return ResponseEntity.ok(likedUsers);
-//    }
-
