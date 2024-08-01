@@ -1,47 +1,65 @@
 package az.edu.turing.turingtinderapp.service;
 
-
-
-import az.edu.turing.turingtinderapp.domain.entity.Like;
-import az.edu.turing.turingtinderapp.domain.repository.LikeRepositoryDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
-@Service
-public class LikeService {
-    private final LikeRepositoryDao likeRepositoryDao;
-
-    @Autowired
-    public LikeService(LikeRepositoryDao likeRepositoryDao) {
-        this.likeRepositoryDao = likeRepositoryDao;
-    }
+import az.edu.turing.turingtinderapp.model.dto.LikeDto;
 
 
-    public List<Like> getAll() {
-        return likeRepositoryDao.getAll();
-    }
+public interface LikeService {
 
-    public List<Like> getBy(Predicate<Like> predicate) {
-        return likeRepositoryDao.getBy(predicate);
-    }
+    List<LikeDto> getAllLikes();
 
-    public Optional<Like> get(Long id) {
-        return likeRepositoryDao.get(id);
-    }
+    Optional<LikeDto> getLikeById(Long id);
 
-    public void insert(Like like) {
-        likeRepositoryDao.insert(like);
-    }
+    void saveLike(LikeDto likeDto);
 
-    public void delete(Long id) {
-        likeRepositoryDao.delete(id);
-    }
+    void deleteLikeById(Long id);
 
-    public void update(Like like) {
-        likeRepositoryDao.update(like);
-    }
+    void updateLike(Long id, LikeDto likeDto);
 }
+
+
+//@Service
+//public class LikeService {
+//    private final LikeRepository likeRepository;
+//
+//    @Autowired
+//    public LikeService(LikeRepository likeRepository) {
+//        this.likeRepository = likeRepository;
+//    }
+//
+//    public List<Like> getAllLikes() {
+//        return likeRepository.findAll();
+//    }
+//
+//    public Optional<Like> getLikeById(Long id) {
+//        return likeRepository.findById(id);
+//    }
+//
+//    public void saveLike(Like like) {
+//        likeRepository.save(like);
+//    }
+//
+//    public void deleteLikeById(Long id) {
+//        likeRepository.deleteById(id);
+//    }
+//
+//    public void update(Like like) {
+//        likeRepository.save(like);
+//    }
+//    public Like insert(Like like) {
+//        return likeRepository.save(like); // Save the like object and return the saved instance
+//    }
+//    public Like updateLike(Long id, Like like) {
+//        if (likeRepository.existsById(id)) {
+//            like.setId(id);
+//            return likeRepository.save(like);
+//        }
+//        throw new IllegalArgumentException("Like with ID " + id + " does not exist.");
+//    }
+//
+//}
+//public List<Like> getBy(Predicate<Like> predicate) {
+//    return likeRepository.getBy(predicate);
+// }
